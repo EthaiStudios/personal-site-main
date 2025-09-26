@@ -1,0 +1,366 @@
+/* Custom CSS for Portfolio Website */
+
+/* Theme Variables (using your palette)
+   Palette: 283D3B (dark slate gray), 197278 (teal), EDDDD4 (champagne), C44536 (red), 772E25 (umber) */
+:root {
+    /* App-level variables */
+    --primary-color: #197278; /* teal */
+    --accent-color: #C44536;  /* warm red */
+    --text-color: #283D3B;    /* dark slate gray */
+    --muted-color: #6c757d;
+    --bg-color: #EDDDD4;      /* champagne */
+    --hero-start: #197278;    /* teal */
+    --hero-end: #C44536;      /* red */
+    --nav-teal-dark: #195e63; /* dark teal for light-mode navbar */
+    --link-color: #197278;    /* keep links teal */
+    --footer-bg: #772E25;     /* umber */
+    --footer-color: #EDDDD4;  /* champagne */
+
+    /* Bootstrap CSS variables for light mode */
+    --bs-body-bg: var(--bg-color);
+    --bs-body-color: var(--text-color);
+    --bs-primary: var(--primary-color);
+    --bs-link-color: var(--link-color);
+    --bs-link-hover-color: #145e60; /* darker teal */
+}
+
+/* Local Font: Daffiys */
+@font-face {
+    font-family: 'Daffiys';
+    /* If WOFF2/WOFF are later added to fonts/daffiys/, the browser will prefer them */
+    src: url('../fonts/daffiys/Daffiys.woff2') format('woff2'),
+         url('../fonts/daffiys/Daffiys.woff') format('woff'),
+         url('../Daffiys.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+[data-bs-theme="dark"] {
+    /* In dark mode, make primary the accent red for buttons */
+    --primary-color: #C44536; /* red primary for buttons */
+    --accent-color: #C44536;
+    --text-color: #EDDDD4;    /* light text */
+    --muted-color: #adb5bd;
+    --bg-color: #283D3B;      /* dark background */
+    --hero-start: #772E25;    /* umber */
+    --hero-end: #197278;      /* teal blend */
+    --nav-teal-dark: #195e63; /* keep same for consistency */
+    --link-color: #197278;    /* keep links teal in dark mode */
+
+    /* Bootstrap CSS variables for dark mode */
+    --bs-body-bg: var(--bg-color);
+    --bs-body-color: var(--text-color);
+    --bs-primary: var(--primary-color);
+    --bs-link-color: var(--link-color);
+    --bs-link-hover-color: #20a1a7; /* brighter teal */
+
+    /* Cards and surfaces */
+    --bs-card-bg: #344844;
+    --bs-card-color: var(--text-color);
+}
+
+/* Dark theme overrides for elements that are forced light in markup */
+[data-bs-theme="dark"] .bg-light,
+[data-bs-theme="dark"] section.bg-light {
+    background-color: #344844 !important; /* muted dark teal */
+    color: var(--text-color) !important;
+}
+
+[data-bs-theme="dark"] #about { background-color: #2f4441; }
+[data-bs-theme="dark"] #contact { background-color: #2f4441; }
+
+/* General Styles */
+body {
+    font-family: 'Montserrat', 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.65;
+    color: var(--text-color);
+    padding-top: 56px; /* For fixed navbar */
+    background-color: var(--bg-color);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    /* Standard headings use Montserrat for crisp readability */
+    font-family: 'Montserrat', 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-weight: 700;
+    line-height: 1.25;
+    margin-bottom: 1rem;
+}
+
+section {
+    padding: 5rem 0;
+}
+
+/* Navigation */
+.navbar {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+/* Custom dark teal background for navbar in light mode */
+.bg-teal-dark {
+    background-color: var(--nav-teal-dark) !important;
+}
+
+.navbar-brand {
+    font-family: 'Daffiys', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 400;
+    font-size: 1.4rem;
+    letter-spacing: 0.2px;
+}
+/* Slightly larger brand in dark mode for contrast */
+[data-bs-theme="dark"] .navbar-brand { font-size: 1.5rem; }
+
+.nav-link {
+    font-weight: 500;
+    padding: 0.5rem 1rem !important;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: var(--primary-color) !important;
+}
+
+/* Hero Section */
+.hero-section {
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--hero-start), var(--hero-end));
+    color: white;
+    text-align: center;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgcGF0dGVyblRyYW5zZm9ybT0icm90YXRlKDQ1KSI+PHJlY3Qgd2lkdGg9IjUwJSIgaGVpZ2h0PSI1MCUiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjcGF0dGVybikiLz48L3N2Zz4=');
+    opacity: 0.3;
+}
+
+.hero-section h1 {
+    font-family: 'Daffiys', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 3rem; /* tuned for Daffiys */
+    margin-bottom: 1.2rem;
+    font-weight: 400;
+    letter-spacing: 0; /* scripts look better without negative tracking */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.16);
+}
+
+/* Section titles use Montserrat; Daffiys reserved for hero and brand */
+section > h2 {
+    font-family: 'Montserrat', 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+}
+
+.hero-section p {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+}
+
+/* About Section */
+#about {
+    background-color: #fff;
+}
+
+#about img {
+    max-width: 300px;
+    margin: 0 auto;
+    display: block;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.social-links a {
+    color: var(--muted-color);
+    margin-right: 1rem;
+    transition: color 0.3s ease;
+}
+
+.social-links a:hover {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+/* Skills Section */
+.skill-card {
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+}
+
+.skill-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.skill-card .card-body {
+    padding: 2rem;
+}
+
+.skill-card i {
+    margin-bottom: 1.5rem;
+}
+
+/* Projects Section */
+.project-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+.project-card .card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+
+/* Contact Section */
+#contact {
+    background-color: #f8f9fa;
+}
+
+.form-control {
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/* Footer */
+footer {
+    padding: 2rem 0;
+    background-color: var(--footer-bg);
+    color: var(--footer-color);
+}
+footer a { color: var(--footer-color); }
+footer a:hover { color: #ffffff; }
+
+/* Responsive Adjustments */
+@media (max-width: 991.98px) {
+    .hero-section h1 {
+        font-size: 2rem; /* scale down for mobile */
+    }
+    .hero-section p {
+        font-size: 1.25rem;
+    }
+    section {
+        padding: 3rem 0;
+    }
+    .navbar-brand { letter-spacing: 0.1px; }
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-on-scroll {
+    opacity: 0;
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* New Preloader Styles */
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--primary-color); /* uses theme primary */
+    z-index: 9999; /* On top of all elements */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.5s ease, visibility 0.5s;
+}
+
+/* Spinner */
+.loader {
+    border: 4px solid rgba(255, 255, 255, 0.2);
+    border-top: 4px solid #ffffff;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+.preloader-logo {
+    width: 96px;
+    height: auto;
+    margin-bottom: 16px;
+    filter: drop-shadow(0 2px 6px rgba(0,0,0,0.25));
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.preloader-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    .loader { animation: none; }
+    .animate-on-scroll { animation: none !important; opacity: 1; }
+}
+
+
+.footer-logo {
+    height: 50px;   /* requested size */
+    width: auto;
+    opacity: 0.95;
+    padding: 2px;   /* tighter fit */
+    border-radius: 6px;
+  }
+  .footer-logo:hover {
+    opacity: 1;
+    transform: translateY(-1px);
+    transition: all .2s ease;
+  }
