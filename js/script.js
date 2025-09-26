@@ -211,3 +211,4 @@ window.addEventListener('load', function() {
         preloader.classList.add('preloader-hidden');
     }, 2000);
 });
+

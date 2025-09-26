@@ -2,8 +2,8 @@
    IMPORTANT: Set your GitHub owner/repo below. The site must be deployed from that repo and be public
    for unauthenticated API reads, or you can add a token later.
 */
-const GITHUB_OWNER = 'YOUR_GITHUB_USERNAME'; // TODO: set
-const GITHUB_REPO = 'YOUR_REPO_NAME';        // TODO: set
+const GITHUB_OWNER = 'ethanallenn'; // TODO: set
+const GITHUB_REPO = 'personal-site-main';        // TODO: set
 const BRANCH = 'main';
 
 const POSTS_DIR = 'content/posts';
@@ -46,20 +46,35 @@ function toSlug(filename) {
   return filename.replace(/\.md$/i, '');
 }
 
+function cmpByDateDesc(a, b) {
+  const da = a.data.date ? Date.parse(a.data.date) : 0;
+  const db = b.data.date ? Date.parse(b.data.date) : 0;
+  return db - da;
+}
+
+async function getAllPostsParsed() {
+  const files = await githubListPosts();
+  const posts = await Promise.all(files.map(async f => {
+    const md = await githubReadFile(`${POSTS_DIR}/${f.name}`);
+    const parsed = parseFrontMatter(md);
+    return { file: f, ...parsed, slug: parsed.data.slug || toSlug(f.name) };
+  }));
+  posts.sort(cmpByDateDesc);
+  return posts;
+}
+
 async function renderBlogList() {
   const container = document.getElementById('posts');
   if (!container) return; // not on blog page
   try {
-    const files = await githubListPosts();
-    if (!files.length) {
+    const posts = await getAllPostsParsed();
+    if (!posts.length) {
       container.innerHTML = '<p>No posts yet.</p>';
       return;
     }
-    const cards = await Promise.all(files.map(async f => {
-      const md = await githubReadFile(`${POSTS_DIR}/${f.name}`);
-      const { data, body } = parseFrontMatter(md);
-      const title = data.title || toSlug(f.name);
-      const slug = data.slug || toSlug(f.name);
+    const cards = posts.map(p => {
+      const data = p.data; const body = p.body;
+      const title = data.title || p.slug;
       const date = data.date ? new Date(data.date).toLocaleDateString() : '';
       const excerpt = (data.excerpt || body.substring(0, 160) + '...');
       const cover = data.cover || '';
@@ -72,11 +87,11 @@ async function renderBlogList() {
               <h5 class="card-title">${title}</h5>
               <p class="text-muted mb-2">${date}</p>
               <p class="card-text">${excerpt}</p>
-              <a class="btn btn-outline-primary" href="post.html?slug=${encodeURIComponent(slug)}">Read</a>
+              <a class="btn btn-outline-primary" href="post.html?slug=${encodeURIComponent(p.slug)}">Read</a>
             </div>
           </div>
         </div>`;
-    }));
+    });
     container.innerHTML = cards.join('');
   } catch (e) {
     console.error(e);
@@ -107,6 +122,7 @@ async function renderPost() {
     metaEl.textContent = data.date ? new Date(data.date).toLocaleString() : '';
     if (data.cover) { coverEl.src = data.cover; coverEl.classList.remove('d-none'); }
     bodyEl.innerHTML = marked.parse(body);
+    if (window.Prism) { Prism.highlightAllUnder(bodyEl); }
   } catch (e) {
     console.error(e);
     if (titleEl) titleEl.textContent = 'Post not found';
@@ -115,3 +131,35 @@ async function renderPost() {
 
 renderBlogList();
 renderPost();
+
+// Render latest posts on homepage (index.html)
+async function renderLatestPosts(limit = 3) {
+  const container = document.getElementById('latest-posts');
+  if (!container) return;
+  try {
+    const posts = await getAllPostsParsed();
+    const latest = posts.slice(0, limit);
+    const items = latest.map(p => {
+      const data = p.data;
+      const title = data.title || p.slug;
+      const date = data.date ? new Date(data.date).toLocaleDateString() : '';
+      return `
+        <div class="col-md-4">
+          <div class="card h-100">
+            ${data.cover ? `<img src="${data.cover}" class="card-img-top" alt="${title}">` : ''}
+            <div class="card-body">
+              <h5 class="card-title">${title}</h5>
+              <p class="text-muted">${date}</p>
+              <a class="stretched-link" href="post.html?slug=${encodeURIComponent(p.slug)}"></a>
+            </div>
+          </div>
+        </div>`;
+    });
+    container.innerHTML = items.join('');
+  } catch (e) {
+    console.error(e);
+    container.innerHTML = '<div class="alert alert-light border">Latest posts unavailable.</div>';
+  }
+}
+
+renderLatestPosts(3);
