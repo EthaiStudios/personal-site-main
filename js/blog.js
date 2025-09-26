@@ -2,7 +2,7 @@
    IMPORTANT: Set your GitHub owner/repo below. The site must be deployed from that repo and be public
    for unauthenticated API reads, or you can add a token later.
 */
-const GITHUB_OWNER = 'ethanallenn'; // TODO: set
+const GITHUB_OWNER = 'EthaiStudios'; // org owner
 const GITHUB_REPO = 'personal-site-main';        // TODO: set
 const BRANCH = 'main';
 
