@@ -11,7 +11,7 @@ Hello and thank you for visiting! I'm Ethan, a Computer Science student at Queen
 
 Through the blog section of this site, I'll be posting regular updates about the projects I'm working on, both academic and personal, as well as reflecting on completed work. As I navigate my studies and explore different areas of computer science, I hope to give you insight into what I'm learning and the exciting challenges I'm tackling.
 
-Whether you're a fellow student, potential collaborator, or just curious about my work, I'd love to connect and hear from you. Feel free to drop me an email at `<a href="mailto:Ethan.Allen@visuae.uk">Ethan.Allen@visuae.uk</a>`
+Whether you're a fellow student, potential collaborator, or just curious about my work, I'd love to connect and hear from you. Feel free to drop me an email at `mailto:Ethan.Allen@visuae.uk`,
 
 Looking forward to sharing this journey!
 
