@@ -2,7 +2,7 @@
 title: Welcome to the site!
 date: 2025-09-27T21:00:00.000+01:00
 slug: site-welcome
-cover: /images/uploads/pfi-270925.jpg
+cover: ""
 tags:
   - EA
 ---
